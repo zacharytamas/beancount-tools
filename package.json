@@ -1,7 +1,7 @@
 {
   "name": "beancount-tools",
   "version": "0.1.0",
-  "description": "",
+  "description": "A library of tools for working with Beancount ledger files.",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
