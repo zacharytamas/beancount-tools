@@ -4,7 +4,8 @@
   "description": "A library of tools for working with Beancount ledger files.",
   "main": "index.js",
   "scripts": {
-    "test": "jest"
+    "test": "jest",
+    "compile-parser": "nearleyc ./src/grammar/beancount.ne -o src/parser.ts && prettier --write src/parser.ts"
   },
   "keywords": [],
   "author": "Zachary Jones <zachary@thorough.company>",
@@ -15,6 +16,8 @@
     "@babel/preset-typescript": "^7.9.0",
     "@thorough/dev-configs": "^0.3.1",
     "@types/jest": "^25.2.1",
+    "@types/moo": "^0.5.3",
+    "@types/nearley": "^2.11.1",
     "@types/node": "^13.11.1",
     "babel-jest": "^25.3.0",
     "eslint": "^6.8.0",
@@ -22,5 +25,9 @@
     "prettier": "^2.0.4",
     "ts-node": "^8.8.2",
     "typescript": "^3.8.3"
+  },
+  "dependencies": {
+    "moo": "^0.5.1",
+    "nearley": "^2.19.1"
   }
 }
