@@ -9,7 +9,7 @@ describe('`open` statements', () => {
     parser.feed('2014-02-03 open');
     parser.finish();
     expect(parser.results).toMatchObject([
-      [{ date: { value: '2014-02-03' }, type: 'OpenStatement' }],
+      [{ date: { type: 'DateLiteral', value: '2014-02-03' }, type: 'OpenStatement' }],
     ]);
   });
 });

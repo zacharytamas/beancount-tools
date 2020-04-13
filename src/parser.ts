@@ -6,6 +6,7 @@
   }
 
   const OpenStatement = require('./ast/OpenStatement').default;
+  const DateLiteral = require('./ast/DateLiteral').default;
 
   const moo = require('moo');
 
@@ -20,12 +21,13 @@
       { name: 'Main', symbols: ['OpenStatement'] },
       {
         name: 'OpenStatement',
-        symbols: [
-          lexer.has('date') ? { type: 'date' } : date,
-          lexer.has('WS') ? { type: 'WS' } : WS,
-          { literal: 'open' },
-        ],
+        symbols: ['Date', lexer.has('WS') ? { type: 'WS' } : WS, { literal: 'open' }],
         postprocess: ([date]) => OpenStatement(date),
+      },
+      {
+        name: 'Date',
+        symbols: [lexer.has('date') ? { type: 'date' } : date],
+        postprocess: ([d]) => DateLiteral(d),
       },
     ],
     ParserStart: 'Main',

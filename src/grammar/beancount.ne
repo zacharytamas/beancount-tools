@@ -1,5 +1,6 @@
 @{%
 const OpenStatement = require('./ast/OpenStatement').default;
+const DateLiteral = require('./ast/DateLiteral').default;
 
 const moo = require("moo");
 
@@ -14,4 +15,6 @@ const lexer = moo.compile({
 
 Main -> OpenStatement
 
-OpenStatement -> %date %WS "open" {% ([date]) => OpenStatement(date) %}
+OpenStatement -> Date %WS "open" {% ([date]) => OpenStatement(date) %}
+
+Date -> %date {% ([d]) => DateLiteral(d) %}
