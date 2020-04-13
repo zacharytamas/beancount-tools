@@ -17,7 +17,9 @@ const lexer = moo.compile({
 
 Main -> OpenStatement
 
-OpenStatement -> Date %WS "open" {% ([date]) => OpenStatement(date) %}
+OpenStatement -> Date %WS "open" %WS AccountName {%
+  ([date,,,,accountName]) => OpenStatement(date, accountName)
+%}
 
 AccountName -> %accountName {% ([d]) => AccountName(d) %}
 Date -> %date {% ([d]) => DateLiteral(d) %}

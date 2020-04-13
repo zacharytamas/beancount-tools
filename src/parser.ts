@@ -23,8 +23,14 @@
       { name: 'Main', symbols: ['OpenStatement'] },
       {
         name: 'OpenStatement',
-        symbols: ['Date', lexer.has('WS') ? { type: 'WS' } : WS, { literal: 'open' }],
-        postprocess: ([date]) => OpenStatement(date),
+        symbols: [
+          'Date',
+          lexer.has('WS') ? { type: 'WS' } : WS,
+          { literal: 'open' },
+          lexer.has('WS') ? { type: 'WS' } : WS,
+          'AccountName',
+        ],
+        postprocess: ([date, , , , accountName]) => OpenStatement(date, accountName),
       },
       {
         name: 'AccountName',
