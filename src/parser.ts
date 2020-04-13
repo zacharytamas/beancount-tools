@@ -6,6 +6,7 @@
   }
 
   const OpenStatement = require('./ast/OpenStatement').default;
+  const AccountName = require('./ast/AccountName').default;
   const DateLiteral = require('./ast/DateLiteral').default;
 
   const moo = require('moo');
@@ -13,6 +14,7 @@
   const lexer = moo.compile({
     WS: /[ \t]+/,
     date: /[0-9]{4}[\-\/][0-9]{2}[\-\/][0-9]{2}/,
+    accountName: /[a-zA-z][a-zA-Z0-9\:]+[a-zA-Z0-9]?/,
     keyword: ['open'],
   });
   var grammar = {
@@ -23,6 +25,11 @@
         name: 'OpenStatement',
         symbols: ['Date', lexer.has('WS') ? { type: 'WS' } : WS, { literal: 'open' }],
         postprocess: ([date]) => OpenStatement(date),
+      },
+      {
+        name: 'AccountName',
+        symbols: [lexer.has('accountName') ? { type: 'accountName' } : accountName],
+        postprocess: ([d]) => AccountName(d),
       },
       {
         name: 'Date',

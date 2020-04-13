@@ -1,5 +1,6 @@
 @{%
 const OpenStatement = require('./ast/OpenStatement').default;
+const AccountName = require('./ast/AccountName').default;
 const DateLiteral = require('./ast/DateLiteral').default;
 
 const moo = require("moo");
@@ -7,6 +8,7 @@ const moo = require("moo");
 const lexer = moo.compile({
   WS:          /[ \t]+/,
   date:        /[0-9]{4}[\-\/][0-9]{2}[\-\/][0-9]{2}/,
+  accountName: /[a-zA-z][a-zA-Z0-9\:]+[a-zA-Z0-9]?/,
   keyword:     ['open'],
 });
 %}
@@ -17,4 +19,5 @@ Main -> OpenStatement
 
 OpenStatement -> Date %WS "open" {% ([date]) => OpenStatement(date) %}
 
+AccountName -> %accountName {% ([d]) => AccountName(d) %}
 Date -> %date {% ([d]) => DateLiteral(d) %}
