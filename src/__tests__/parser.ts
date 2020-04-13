@@ -9,13 +9,16 @@ describe('`open` statements', () => {
     parser.feed('2014-02-03 open Assets:US:BofA:Checking');
     parser.finish();
     expect(parser.results).toMatchObject([
-      [
-        {
-          date: { type: 'DateLiteral', value: '2014-02-03' },
-          type: 'OpenStatement',
-          account: { type: 'AccountName', value: 'Assets:US:BofA:Checking' },
-        },
-      ],
+      {
+        type: 'Ledger',
+        statements: [
+          {
+            date: { type: 'DateLiteral', value: '2014-02-03' },
+            type: 'OpenStatement',
+            account: { type: 'AccountName', value: 'Assets:US:BofA:Checking' },
+          },
+        ],
+      },
     ]);
   });
 });

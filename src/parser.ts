@@ -20,7 +20,23 @@
   var grammar = {
     Lexer: lexer,
     ParserRules: [
-      { name: 'Main', symbols: ['OpenStatement'] },
+      {
+        name: 'Main',
+        symbols: ['StatementList'],
+        postprocess: ([d]) => ({ type: 'Ledger', statements: d }),
+      },
+      { name: 'StatementList$subexpression$1', symbols: ['Statement'] },
+      {
+        name: 'StatementList$subexpression$1',
+        symbols: ['Statement', lexer.has('NL') ? { type: 'NL' } : NL, 'StatementList'],
+      },
+      {
+        name: 'StatementList',
+        symbols: ['StatementList$subexpression$1'],
+        postprocess: (d) => d.flat(2),
+      },
+      { name: 'Statement$subexpression$1', symbols: ['OpenStatement'] },
+      { name: 'Statement', symbols: ['Statement$subexpression$1'], postprocess: id },
       {
         name: 'OpenStatement',
         symbols: [

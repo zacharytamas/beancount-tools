@@ -15,7 +15,11 @@ const lexer = moo.compile({
 
 @lexer lexer
 
-Main -> OpenStatement
+Main -> StatementList {% ([d]) => ({ type: 'Ledger', statements: d }) %}
+
+StatementList -> (Statement | Statement %NL StatementList) {% d => d.flat(2) %}
+
+Statement -> (OpenStatement) {% id %}
 
 OpenStatement -> Date %WS "open" %WS AccountName {%
   ([date,,,,accountName]) => OpenStatement(date, accountName)
