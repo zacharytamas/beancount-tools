@@ -1,6 +1,4 @@
-import AccountName from './nodes/AccountName';
-import CloseStatement from './nodes/CloseStatement';
-import DateLiteral from './nodes/DateLiteral';
-import OpenStatement from './nodes/OpenStatement';
-
-export { AccountName, DateLiteral, OpenStatement, CloseStatement };
+export * from './nodes/AccountName';
+export * from './nodes/CloseStatement';
+export * from './nodes/DateLiteral';
+export * from './nodes/OpenStatement';

@@ -1,7 +1,13 @@
-export interface DateLiteralNode {
+import { BaseToken } from '../tokens';
+import { BaseNode } from './BaseNode';
+
+export interface DateLiteralNode extends BaseNode {
   type: 'DateLiteral';
+  value: string;
 }
 
-const DateLiteral = (token: any) => ({ ...token, type: 'DateLiteral' });
-
-export default DateLiteral;
+export const DateLiteral = ({ value, line, col, offset }: BaseToken): DateLiteralNode => ({
+  type: 'DateLiteral',
+  value,
+  location: { line, col, offset },
+});

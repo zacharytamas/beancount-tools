@@ -1,8 +1,13 @@
-export interface AccountNameNode {
+import { BaseToken } from '../tokens';
+import { BaseNode } from './BaseNode';
+
+export interface AccountNameNode extends BaseNode {
   type: 'AccountName';
   value: string;
 }
 
-const AccountName = (token: any): AccountNameNode => ({ ...token, type: 'AccountName' });
-
-export default AccountName;
+export const AccountName = ({ value, line, col, offset }: BaseToken): AccountNameNode => ({
+  type: 'AccountName',
+  value,
+  location: { line, col, offset },
+});
