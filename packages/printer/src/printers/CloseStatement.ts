@@ -1,0 +1,11 @@
+import { CloseStatementNode } from '@beancount/ast';
+
+import printAccountName from './AccountName';
+import printDateLiteral from './DateLiteral';
+
+const printCloseStatement = (closeStatement: CloseStatementNode): string =>
+  [printDateLiteral(closeStatement.date), 'close', printAccountName(closeStatement.account)].join(
+    ' '
+  );
+
+export default printCloseStatement;
