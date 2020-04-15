@@ -1,7 +1,5 @@
 @{%
-const OpenStatement = require('./ast/OpenStatement').default;
-const AccountName = require('./ast/AccountName').default;
-const DateLiteral = require('./ast/DateLiteral').default;
+const {OpenStatement, AccountName, DateLiteral} = require('@beancount/ast');
 
 const moo = require("moo");
 

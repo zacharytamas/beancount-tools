@@ -1,0 +1,17 @@
+{
+  "name": "@beancount/ast",
+  "version": "0.0.0",
+  "description": "An abstract syntax tree specification representing Beancount documents.",
+  "main": "dist/index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "watch": "tsc --watch",
+    "build": "tsc"
+  },
+  "keywords": [],
+  "author": "Zachary Jones <zachary@jones.cx>",
+  "license": "ISC",
+  "devDependencies": {
+    "typescript": "^3.8.3"
+  }
+}

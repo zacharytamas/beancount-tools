@@ -1,0 +1,17 @@
+{
+  "name": "@beancount/parser",
+  "version": "0.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "compile-parser": "nearleyc ./src/beancount.ne -o src/parser.ts && prettier --write src/parser.ts",
+    "build": "npm run compile-parser"
+  },
+  "keywords": [],
+  "author": "Zachary Jones <zachary@jones.cx>",
+  "license": "ISC",
+  "dependencies": {
+    "@beancount/ast": "0.0.0"
+  }
+}
