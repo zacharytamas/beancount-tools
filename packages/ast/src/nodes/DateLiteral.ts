@@ -6,8 +6,9 @@ export interface DateLiteralNode extends BaseNode {
   value: string;
 }
 
-export const DateLiteral = ({ value, line, col, offset }: BaseToken): DateLiteralNode => ({
-  type: 'DateLiteral',
-  value,
-  location: { line, col, offset },
-});
+export const DateLiteral = (token: BaseToken | string): DateLiteralNode => {
+  if (typeof token === 'string') return { type: 'DateLiteral', value: token };
+
+  const { value, line, col, offset } = token;
+  return { type: 'DateLiteral', value, location: { line, col, offset } };
+};
