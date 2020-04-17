@@ -7,7 +7,7 @@ it('prints appropriately', () => {
   const closeDate = '2020-04-01';
   const accountName = 'Assets:Checking';
 
-  const account = accountBuilder().name(accountName).open(openDate).close(closeDate);
+  const account = accountBuilder().name(accountName).openDate(openDate).closeDate(closeDate);
 
   expect(account.build()).toMatchObject([
     OpenStatement(DateLiteral(openDate), AccountName(accountName)),

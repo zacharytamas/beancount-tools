@@ -9,8 +9,8 @@ interface AccountBuilderContext {
 const accountBuilder = (data?: AccountBuilderContext) => {
   return {
     name: (accountName: string) => accountBuilder({ ...data, accountName }),
-    open: (date: string) => accountBuilder({ ...data, openDate: date }),
-    close: (date: string) => accountBuilder({ ...data, closeDate: date }),
+    openDate: (date: string) => accountBuilder({ ...data, openDate: date }),
+    closeDate: (date: string) => accountBuilder({ ...data, closeDate: date }),
     build: () => {
       const { accountName, openDate, closeDate } = data;
 
