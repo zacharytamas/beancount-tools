@@ -5,17 +5,15 @@
     return x[0];
   }
 
-  const { OpenStatement, CloseStatement, AccountName, DateLiteral } = require('@beancount/ast');
+  const {
+    OpenStatement,
+    CloseStatement,
+    AccountName,
+    DateLiteral,
+    StringLiteral
+  } = require('@beancount/ast');
 
-  const moo = require('moo');
-
-  const lexer = moo.compile({
-    WS: /[ \t]+/,
-    date: /[0-9]{4}[\-\/][0-9]{2}[\-\/][0-9]{2}/,
-    accountName: /[a-zA-z][a-zA-Z0-9\:]+[a-zA-Z0-9]?/,
-    keyword: ['open', 'close'],
-    NL: { match: /\n/, lineBreaks: true }
-  });
+  const lexer = require('./lexer').default;
   var grammar = {
     Lexer: lexer,
     ParserRules: [
@@ -33,7 +31,24 @@
       },
       { name: 'Statement$subexpression$1', symbols: ['OpenStatement'] },
       { name: 'Statement$subexpression$1', symbols: ['CloseStatement'] },
+      { name: 'Statement$subexpression$1', symbols: ['TransactionStatement'] },
       { name: 'Statement', symbols: ['Statement$subexpression$1'], postprocess: id },
+      {
+        name: 'TransactionStatement',
+        symbols: [
+          'Date',
+          lexer.has('WS') ? { type: 'WS' } : WS,
+          'TransactionDirective',
+          lexer.has('WS') ? { type: 'WS' } : WS,
+          'String'
+        ],
+        postprocess: ([date, , directive, , payee]) => ({
+          type: 'Transaction',
+          date,
+          payee,
+          status: directive.value === '!' ? 'incomplete' : 'completed'
+        })
+      },
       {
         name: 'CloseStatement',
         symbols: [
@@ -56,6 +71,9 @@
         ],
         postprocess: ([date, , , , accountName]) => OpenStatement(date, accountName)
       },
+      { name: 'TransactionDirective', symbols: [{ literal: '*' }] },
+      { name: 'TransactionDirective', symbols: [{ literal: 'txn' }] },
+      { name: 'TransactionDirective', symbols: [{ literal: '!' }] },
       {
         name: 'AccountName',
         symbols: [lexer.has('accountName') ? { type: 'accountName' } : accountName],
@@ -66,7 +84,12 @@
         symbols: [lexer.has('date') ? { type: 'date' } : date],
         postprocess: ([d]) => DateLiteral(d)
       },
-      { name: 'NL', symbols: [lexer.has('NL') ? { type: 'NL' } : NL], postprocess: () => null }
+      { name: 'NL', symbols: [lexer.has('NL') ? { type: 'NL' } : NL], postprocess: () => null },
+      {
+        name: 'String',
+        symbols: [lexer.has('string') ? { type: 'string' } : string],
+        postprocess: ([d]) => StringLiteral(d)
+      }
     ],
     ParserStart: 'Main'
   };
