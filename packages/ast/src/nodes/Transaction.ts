@@ -5,12 +5,16 @@ export type TransactionDirectives = 'txn' | '*' | '!';
 export interface TransactionNode {
   type: 'Transaction';
   status: TransactionStatus;
+  payee?: string;
+  memo?: string;
 }
 
 interface TransactionOptions {
   status: TransactionStatus;
+  payee?: string;
+  memo?: string;
 }
 
-export const Transaction = ({ status }: TransactionOptions): TransactionNode => {
-  return { type: 'Transaction', status };
+export const Transaction = (txnOptions: TransactionOptions): TransactionNode => {
+  return { type: 'Transaction', ...txnOptions };
 };
