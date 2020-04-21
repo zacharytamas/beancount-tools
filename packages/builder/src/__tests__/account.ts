@@ -9,7 +9,7 @@ it('prints appropriately', () => {
 
   const account = accountBuilder().name(accountName).openDate(openDate).closeDate(closeDate);
 
-  expect(account.build()).toMatchObject([
+  expect(account.fold()).toMatchObject([
     OpenStatement(DateLiteral(openDate), AccountName(accountName)),
     CloseStatement(DateLiteral(closeDate), AccountName(accountName)),
   ]);

@@ -1,4 +1,11 @@
-import { AccountName, CloseStatement, DateLiteral, OpenStatement } from '@beancount/ast';
+import {
+  AccountName,
+  CloseStatement,
+  CloseStatementNode,
+  DateLiteral,
+  OpenStatement,
+  OpenStatementNode,
+} from '@beancount/ast';
 
 interface AccountBuilderContext {
   accountName: string;
@@ -6,12 +13,19 @@ interface AccountBuilderContext {
   closeDate?: string;
 }
 
-const accountBuilder = (data?: AccountBuilderContext) => {
+interface AccountBuilder {
+  name(accountName: string): AccountBuilder;
+  openDate(date: string): AccountBuilder;
+  closeDate(date: string): AccountBuilder;
+  fold(): (OpenStatementNode | CloseStatementNode)[];
+}
+
+const accountBuilder = (data?: AccountBuilderContext): AccountBuilder => {
   return {
     name: (accountName: string) => accountBuilder({ ...data, accountName }),
     openDate: (date: string) => accountBuilder({ ...data, openDate: date }),
     closeDate: (date: string) => accountBuilder({ ...data, closeDate: date }),
-    build: () => {
+    fold: () => {
       const { accountName, openDate, closeDate } = data;
 
       if (!accountName)
@@ -24,7 +38,7 @@ const accountBuilder = (data?: AccountBuilderContext) => {
         closeDate && CloseStatement(DateLiteral(closeDate), AccountName(accountName)),
       ].filter(Boolean);
     },
-  };
+  } as AccountBuilder;
 };
 
 export default accountBuilder;
