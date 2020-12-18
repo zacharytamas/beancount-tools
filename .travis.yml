@@ -3,3 +3,5 @@ node_js:
   - 9
   - 8
   - node
+before_script:
+  - npx lerna bootstrap
